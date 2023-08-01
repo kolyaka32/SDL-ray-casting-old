@@ -41,10 +41,6 @@ class Player{
         dx = 0; dy = 0;
         boost = 1;
     }
-    // Destructor of player
-    /*~Player(){
-
-    }*/
 
     float x, y; // Coordinats of player
     float ang; // Angular of rotating od player
@@ -118,11 +114,7 @@ int WallCross(int Ax, int Ay, int Bx, int By, int Cx, int Cy, int Dx, int Dy){
     float  s = (float)((Ax - Cx) * (Dy - Cy) - (Dx - Cx) * (Ay - Cy)) / den;
     if(s<0 || s>1) return 0;
     minR = r;
-    //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    //SDL_RenderDrawPoint(renderer, (s * (Bx - Ax) + Ax), (s * (By - Ay) + Ay) );
-    
     return (WIDTH * 10 / sqrt(  pow(Cx - (s * (Bx - Ax) + Ax), 2) + pow(Cy - (s * (By - Ay) + Ay), 2) ) ); // Outputing distans to C
-    //return (  pow(Cx - (s * (Bx - Ax) + Ax), 2) + pow(Cy - (s * (By - Ay) + Ay), 2) ); // Outputing distans to C
 };
 
 // Function of drawing wall at screen
@@ -151,7 +143,6 @@ void MapDraw(int Headx, int Heady){
 
 // Main function
 int main(int argc, char * argv[]){
-
     // Creating path to executable file
     std::string place = argv[0];  // Getting path to file
     path = place.substr(0, place.find_last_of('\\')+1);
@@ -218,17 +209,11 @@ int main(int argc, char * argv[]){
         Head.x += (-Head.dx * sin(Head.ang) - Head.dy * cos(Head.ang)) * Head.boost;
         Head.y += ( Head.dx * cos(Head.ang) - Head.dy * sin(Head.ang)) * Head.boost;
 
-        //std::cout << Head.x << "\t" << Head.y << "\t" << Head.dx << "\t" << Head.dy << std::endl;
-        //printf("%d, 5d", Head.x, Head.y);
-
         // Renderer
-        // Clear of screen
         SDL_SetRenderDrawColor(renderer, 77, 143, 172, 0);  // Filling of sky
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 127, 127, 127, 0);  // Filling of floor
         SDL_RenderFillRect(renderer, &FLOOR_RECT);
-
-        
 
         // Cycle of drawing each column to create picture of graphics
         for(int x = 0; x<WIDTH; ++x){
@@ -246,18 +231,12 @@ int main(int argc, char * argv[]){
             }
             if(mDis >= HEIGHT-2) mDis = HEIGHT-2;  // Settig max h to WIDTH
             WallDraw(x, mDis); // Drawing closiest wall at screen
-
-            //Render FOV on map
-            //SDL_SetRenderDrawColor(renderer, 100, 100, 0, 0);
-            //SDL_RenderDrawLine(renderer, Head.x, Head.y, Head.x+50*cos(ang), Head.y+50*sin(ang));
         }
 
         MapDraw(Head.x, Head.y);  // Drawing map
 
         SDL_RenderPresent(renderer);  // Show the change on the screen
     }
-
-    
     SDL_del(); // Clear all data
     return 1;
 }
